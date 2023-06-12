@@ -1,0 +1,147 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://skyline.be/schemas/ProfileInstanceSchema.json",
+	"type": "object",
+	"description": "Defines a DataMiner Profile Instance.",
+	"properties": {
+		"ID": {
+			"type": "string",
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "ID of the Profile Instance, must be unique for each instance."
+		},
+		"IsValueCopy": {
+			"type": [ "boolean", "null" ],
+			"description": "Defines whether a Profile Instance is a copy of another Profile Instance or not."
+		},
+		"AppliesTo": {
+			"type": "string",
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "Defines the Profile Definition to which this Profile Instance implements."
+		},
+		"ServiceProfileInstanceID": {
+			"type": [ "string", "null" ],
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "Defines the Service Profile Instance associated with this Profile Instance."
+		},
+		"Values": {
+			"type": "array",
+			"items": {
+				"$ref": "#/definitions/ProfileParameterEntry"
+			},
+			"description": "Defines the values in this Profile Instance."
+		},
+		"BasedOnIDs": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "string",
+				"format": "guid",
+				"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+			},
+			"description": "Defines the parameter Profile Instances of this instance."
+		}
+	},
+	"required": [
+		"ID",
+		"AppliesTo",
+		"Values"
+	],
+	"definitions": {
+		"ProfileParameterEntry": {
+			"type": "object",
+			"properties": {
+				"Parameter": {
+					"type": "string",
+					"format": "guid",
+					"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+					"description": "ID of the Profile Parameter."
+				},
+				"Value": {
+					"$ref": "#/definitions/ParameterValue"
+				},
+				"CapabilityUsageValue": {
+					"$ref": "#/definitions/CapabilityUsageParameterValue"
+				},
+				"CapacityUsageValue": {
+					"$ref": "#/definitions/CapacityUsageParameterValue"
+				},
+				"Remarks": {
+					"type": [ "string", "null" ]
+				},
+				"Disabled": {
+					"type": [ "boolean", "null" ]
+				},
+				"ParameterSettings": {
+					"$ref": "#/definitions/ParameterSettings"
+				}
+			},
+			"required": [
+				"Parameter",
+				"Value"
+			]
+		},
+		"ParameterSettings": {
+			"type": [ "object", "null" ],
+			"properties": {
+				"IsHidden": {
+					"type": "boolean"
+				},
+				"InheritIsHidden": {
+					"type": "boolean"
+				}
+			}
+		},
+		"ParameterValue": {
+			"type": "object",
+			"description": "Profile Parameter value in this Profile Instance.",
+			"properties": {
+				"StringValue": {
+					"type": [ "string", "null" ],
+					"description": "Value if the Parameter is of type Text or Discrete."
+				},
+				"DoubleValue": {
+					"type": [ "number", "null" ],
+					"description": "Value if the Parameter is of type Number."
+				},
+				"Type": {
+					"type": "integer",
+					"enum": [ 1, 2 ],
+					"description": "Type of the Profile Parameter.\r\n1 - Double, 2 - String."
+				}
+			},
+			"required": [
+				"Type"
+			]
+		},
+		"CapabilityUsageParameterValue": {
+			"type": [ "object", "null" ],
+			"description": "Profile Parameter capability value in this Profile Instance.",
+			"properties": {
+				"RequiredDiscreet": {
+					"type": [ "string", "null" ],
+					"description": "Capability value to be used if the parameter is of Type Discrete."
+				},
+				"RequiredRangePoint": {
+					"type": [ "number", "null" ],
+					"description": "Capability value to be used if the parameter is of Type Number."
+				},
+				"RequiredString": {
+					"type": [ "string", "null" ],
+					"description": "Capability value to be used if the parameter is of Type Text."
+				}
+			}
+		},
+		"CapacityUsageParameterValue": {
+			"type": [ "object", "null" ],
+			"description": "Profile Parameter capacity value in this Profile Instance.",
+			"properties": {
+				"DecimalQuantity": {
+					"type": "number",
+					"description": "Capacity to be used by the Profile Parameter in this Profile Instance."
+				}
+			}
+		}
+	}
+}

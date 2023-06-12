@@ -1,0 +1,96 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://skyline.be/schemas/ProfileDefinitionSchema.json",
+	"type": "object",
+	"description": "Defines a DataMiner Profile Definition.",
+	"properties": {
+		"ID": {
+			"type": "string",
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "ID of the Profile Definition, must be unique for each definition."
+		},
+		"Name": {
+			"type": "string",
+			"description": "Defines the name of the Profile Definition. Should be unique for each definition."
+		},
+		"Description": {
+			"type": [ "string", "null" ],
+			"description": "Description of the Profile Definition."
+		},
+		"ParameterSettings": {
+			"type": [ "object", "null" ],
+			"additionalProperties": true,
+			"patternProperties": {
+				"^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$": {
+					"$ref": "#/properties/ParameterSettings/definitions/ParameterSettings"
+				}
+			},
+			"definitions": {
+				"ParameterSettings": {
+					"type": "object",
+					"properties": {
+						"IsHidden": {
+							"type": "boolean",
+							"description": "Defines whether a parameter should be hidden in this profile definition."
+						},
+						"InheritIsHidden": {
+							"type": "boolean",
+							"description": "Defines whether a parameter should inherit the IsHidden value from a parent profile definition."
+						}
+					}
+				}
+			}
+		},
+		"BasedOnIDs": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "string",
+				"format": "guid",
+				"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+			},
+			"description": "Defines the parent profile definitions."
+		},
+		"ParameterIDs": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "string",
+				"format": "guid",
+				"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+			},
+			"description": "Defines the Profile Parameters that are part of this Profile Definition."
+		},
+		"Scripts": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "object",
+				"properties": {
+					"Name": {
+						"type": "string",
+						"description": "A name for this script entry, should reflect what device/app the Profile Load Script configures."
+					},
+					"Description": {
+						"type": "string",
+						"description": "Describes the Profile Load Script, if extra information is necessary."
+					},
+					"Script": {
+						"type": "string",
+						"description": "The name of the DataMiner Profile Load Script."
+					}
+				},
+				"required": [ "Name", "Script" ]
+			},
+			"description": "Defines the Profile Load Scripts that are used by this Profile Definition."
+		},
+		"ServiceProfileDefinitionID": {
+			"type": [ "string", "null" ],
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "Defines the Service Profile Definition associated with the Profile Definition."
+		}
+	},
+	"required": [
+		"ID",
+		"Name"
+	]
+}
