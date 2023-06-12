@@ -1,0 +1,145 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"$id": "http://skyline.be/schemas/ProfileParameterSchema.json",
+	"title": "Parameter",
+	"description": "Defines a DataMiner Profile Parameter.",
+	"type": "object",
+	"properties": {
+		"ID": {
+			"type": "string",
+			"format": "guid",
+			"pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$",
+			"description": "ID of the Profile Parameter, must be unique for each parameter."
+		},
+		"Discretes": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "string"
+			},
+			"description": "For parameters of Type Discrete, defines the values of the discrete options."
+		},
+		"DiscreetDisplayValues": {
+			"type": [ "array", "null" ],
+			"items": {
+				"type": "string"
+			},
+			"description": "For parameters of Type Discrete, defines the display values of the discrete options. Note: there a 1-1 matching with Discretes list."
+		},
+		"Type": {
+			"type": "integer",
+			"enum": [ 1, 2, 3 ],
+			"description": "Defines the Parameter Type.\r\n1 - Number, 2 - Text, 3 - Discrete."
+		},
+		"InterpreteType": {
+			"type": "object",
+			"properties": {
+				"RawType": {
+					"type": "integer",
+					"enum": [ 1, 2, 3, 4, 5, 6, 7, 8 ],
+					"description": "1 - Bcd, 2 - Double, 3 - NumericText, 4 - OnlyOthers, 5 - Other, 6 - SignedNumber, 7 - Text, 8 - UnsignedNumber."
+				},
+				"Type": {
+					"type": "integer",
+					"enum": [ 1, 2, 3 ],
+					"description": "1 - String, 2 - Double, 3 - HighNibble."
+				}
+			},
+			"required": [ "RawType", "Type" ]
+		},
+		"Category": {
+			"type": "integer",
+			"enum": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 ],
+			"description": "1 - Monitoring, 2 - Configuration, 3 - Monitoring & Configuration, 4 - Capability, 5 - Monitoring & Capability, 6 - Configuration & Capability, 7 - Monitoring & Configuration & Capability, 8 - Capacity, 9 - Monitoring & Capacity, 10 - Configuration & Capacity, 11 - Monitoring & Configuration & Capacity."
+		},
+		"Name": {
+			"type": "string",
+			"description": "Name of the Profile Parameter. Should be unique for each parameter."
+		},
+		"Remarks": {
+			"type": [ "string", "null" ],
+			"description": "Custom string that can be filled with notes about the parameter."
+		},
+		"IsOptional": {
+			"type": [ "boolean", "null" ],
+			"description": "Defines whether a parameter is optional or not."
+		},
+		"DefaultValue": {
+			"type": [ "object", "null" ],
+			"properties": {
+				"Type": {
+					"type": "integer",
+					"enum": [ 1, 2 ],
+					"description": "1 - Double, 2 - String."
+				},
+				"StringValue": {
+					"type": [ "string", "null" ]
+				},
+				"DoubleValue": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"Type"
+			],
+			"description": "Defines the default value of a Profile Parameter."
+		},
+		"DefaultCapabilityUsageValue": {
+			"type": [ "object", "null" ],
+			"properties": {
+				"RequiredDiscreet": {
+					"type": [ "string", "null" ]
+				},
+				"RequiredRangePoint": {
+					"type": [ "number", "null" ]
+				},
+				"RequiredString": {
+					"type": [ "string", "null" ]
+				}
+			},
+			"description": "Defines the default capability value of a Profile Parameter."
+		},
+		"DefaultCapacityUsageValue": {
+			"type": [ "object", "null" ],
+			"properties": {
+				"DecimalQuantity": {
+					"type": "number"
+				}
+			},
+			"description": "Defines the default capacity value of a Profile Parameter."
+		},
+		"Units": {
+			"type": [ "string", "null" ],
+			"description": "Defines the units of a Profile Parameter. Applicable for Number Parameters."
+		},
+		"RangeMin": {
+			"type": [ "number", "null" ],
+			"description": "Defines the minimum value of a Profile Parameter. Applicable for Number Parameters."
+		},
+		"RangeMax": {
+			"type": [ "number", "null" ],
+			"description": "Defines the maximum value of a Profile Parameter. Applicable for Number Parameters."
+		},
+		"Stepsize": {
+			"type": [ "integer", "null" ],
+			"description": "Defines the allowed increment value of a Profile Parameter. Applicable for Number Parameters."
+		},
+		"Decimals": {
+			"type": [ "integer", "null" ],
+			"description": "Defines the number of decimal numbers of a Profile Parameter. Applicable for Number Parameters."
+		},
+		"MaxLength": {
+			"type": [ "integer", "null" ],
+			"description": "Defines the maximum length of a Profile Parameter."
+		},
+		"Regex": {
+			"type": [ "string", "null" ],
+			"description": "Defines the regex of a Profile Parameter. Applicable for Text Parameters."
+		}
+	},
+	"required": [
+		"ID",
+		"Type",
+		"Category",
+		"Name"
+	]
+}
